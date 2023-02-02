@@ -57,7 +57,14 @@
             </div>
           </v-card-text>
           <v-card-actions class="plus_btn">
-            <v-btn class="mx-2" fab dark small color="teal">
+            <v-btn
+              class="mx-2"
+              fab
+              dark
+              small
+              color="teal"
+              @click="addBook(book)"
+            >
               <v-icon dark> mdi-plus </v-icon>
             </v-btn>
           </v-card-actions>
@@ -115,6 +122,9 @@ export default {
           }
         })
       }
+    },
+    addBook(book) {
+      this.$emit('add-book', book)
     },
   },
 }
