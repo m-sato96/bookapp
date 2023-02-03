@@ -66,7 +66,7 @@
 export default {
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.book = vm.books[vm.$route.params.id - 1]
+      vm.book = JSON.parse(localStorage.getItem('SelectedBooks'))
       if (vm.book.readDate) {
         vm.date = vm.book.readDate
       } else {
@@ -75,12 +75,6 @@ export default {
           .substr(0, 10)
       }
     })
-  },
-  props: {
-    books: {
-      type: Array,
-      default: () => {},
-    },
   },
   data() {
     return {
@@ -92,7 +86,7 @@ export default {
   methods: {
     updateBookInfo() {
       this.$emit('update-book-info', {
-        id: this.$route.params.id,
+        ...this.book,
         readDate: this.date,
         memo: this.book.memo,
       })

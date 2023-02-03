@@ -62,7 +62,7 @@
               dark
               small
               color="amber"
-              @click="addBook(book)"
+              @click="detailBook(book)"
             >
               <v-icon dark> mdi-bookmark </v-icon>
             </v-btn>
@@ -122,8 +122,8 @@ export default {
         })
       }
     },
-    addBook(book) {
-      this.$emit('add-book', book)
+    detailBook(book) {
+      this.$emit('detail-book', book)
     },
   },
 }

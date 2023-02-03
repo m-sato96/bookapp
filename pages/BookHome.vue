@@ -2,7 +2,7 @@
   <div>
     <NuxtChild
       :books="books"
-      @add-book="addBook"
+      @detail-book="detailBook"
       @update-book-info="updateBookInfo"
       @books-delete="booksDelete"
     />
@@ -26,28 +26,22 @@ export default {
     }
   },
   methods: {
-    addBook(e) {
-      this.books.push({
-        id: this.books.length + 1,
-        image: e.image,
-        title: e.title,
-        description: e.description,
-        readDate: '',
-        memo: '',
-      })
-      this.saveBooks()
-      this.goToEditPage(this.books.slice(-1)[0].id)
+    detailBook(e) {
+      const data = JSON.stringify(e)
+      localStorage.setItem('SelectedBooks', data)
+      this.$router.push(`/BookHome/edit/${e.id}`)
     },
     updateBookInfo(e) {
-      const updateData = {
-        id: e.id,
-        image: this.books[e.id - 1].image,
-        title: this.books[e.id - 1].title,
-        description: this.books[e.id - 1].description,
-        readDate: e.readDate,
-        memo: e.memo,
+      // 保存済みの書籍かどうか
+      const isSaved = this.books.some((book) => {
+        return e.id === book.id
+      })
+      if (isSaved) {
+        const index = this.books.findIndex((book) => e.id === book.id)
+        this.books.splice(index, 1, e)
+      } else {
+        this.books.push(e)
       }
-      this.books.splice(e.id - 1, 1, updateData)
       this.saveBooks()
       this.$router.push('/BookHome/BookDepository')
     },
@@ -59,9 +53,6 @@ export default {
     saveBooks() {
       const data = JSON.stringify(this.books)
       localStorage.setItem('books', data)
-    },
-    goToEditPage(id) {
-      this.$router.push(`/BookHome/edit/${id}`)
     },
   },
 }

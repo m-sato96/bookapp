@@ -40,7 +40,7 @@
                 dark
                 small
                 color="teal"
-                :to="`/BookHome/edit/${book.id}`"
+                @click="detailBook(book)"
               >
                 <v-icon dark> mdi-pencil </v-icon>
               </v-btn>
@@ -91,6 +91,11 @@ export default {
   methods: {
     booksDelete() {
       this.$emit('books-delete')
+    },
+    detailBook(book) {
+      const data = JSON.stringify(book)
+      localStorage.setItem('SelectedBooks', data)
+      this.$router.push(`/BookHome/edit/${book.id}`)
     },
   },
 }
