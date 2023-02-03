@@ -4,6 +4,7 @@
       :books="books"
       @add-book="addBook"
       @update-book-info="updateBookInfo"
+      @books-delete="booksDelete"
     />
   </div>
 </template>
@@ -49,6 +50,11 @@ export default {
       this.books.splice(e.id - 1, 1, updateData)
       this.saveBooks()
       this.$router.push('/BookHome/BookDepository')
+    },
+    booksDelete() {
+      localStorage.setItem('books', '')
+      localStorage.removeItem('books')
+      this.books = []
     },
     saveBooks() {
       const data = JSON.stringify(this.books)

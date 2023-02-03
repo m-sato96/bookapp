@@ -1,5 +1,9 @@
 <template>
   <div class="px-5">
+    <v-btn text color="primary" class="mb-1 pa-0" to="/BookHome/SearchBook">
+      <v-icon right dark class="mr-3"> mdi-arrow-left </v-icon>
+      書籍一覧に戻る
+    </v-btn>
     <h1 class="my-6">{{ book.title }}</h1>
     <div class="mb-5">
       <v-img height="250" :src="book.image" contain class="book_img">
@@ -55,10 +59,6 @@
         保存する
       </v-btn>
     </div>
-    <v-btn text color="primary" class="mt-5" to="/BookHome/SearchBook">
-      <v-icon right dark class="mr-3"> mdi-arrow-left </v-icon>
-      書籍一覧に戻る
-    </v-btn>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row align="center">
-      <v-col cols="12" sm="6" md="3">
+      <v-col cols="12" sm="6">
         <v-text-field
           v-model="keyword"
           hide-details="false"
@@ -61,10 +61,10 @@
               fab
               dark
               small
-              color="teal"
+              color="amber"
               @click="addBook(book)"
             >
-              <v-icon dark> mdi-plus </v-icon>
+              <v-icon dark> mdi-bookmark </v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
