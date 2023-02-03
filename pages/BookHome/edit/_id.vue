@@ -3,7 +3,7 @@
     <h1 class="my-6">{{ book.title }}</h1>
     <div class="mb-5">
       <v-img height="250" :src="book.image" contain class="book_img">
-        <template v-slot:placeholder>
+        <template #placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular
               indeterminate
@@ -23,7 +23,7 @@
         offset-y
         min-width="auto"
       >
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ on, attrs }">
           <v-text-field
             v-model="date"
             color="teal"
@@ -67,6 +67,13 @@ export default {
   beforeRouteEnter(to, from, next) {
     next((vm) => {
       vm.book = vm.books[vm.$route.params.id - 1]
+      if (vm.book.readDate) {
+        vm.date = vm.book.readDate
+      } else {
+        vm.date = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10)
+      }
     })
   },
   props: {
@@ -78,9 +85,7 @@ export default {
   data() {
     return {
       book: {},
-      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
+      date: '',
       menu: false,
     }
   },
@@ -88,7 +93,7 @@ export default {
     updateBookInfo() {
       this.$emit('update-book-info', {
         id: this.$route.params.id,
-        readData: this.date,
+        readDate: this.date,
         memo: this.book.memo,
       })
     },

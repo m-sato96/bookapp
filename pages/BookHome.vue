@@ -31,7 +31,7 @@ export default {
         image: e.image,
         title: e.title,
         description: e.description,
-        readData: '',
+        readDate: '',
         memo: '',
       })
       this.saveBooks()
@@ -43,12 +43,12 @@ export default {
         image: this.books[e.id - 1].image,
         title: this.books[e.id - 1].title,
         description: this.books[e.id - 1].description,
-        readData: e.readData,
+        readDate: e.readDate,
         memo: e.memo,
       }
       this.books.splice(e.id - 1, 1, updateData)
       this.saveBooks()
-      this.$router.push('/BookHome')
+      this.$router.push('/BookHome/BookDepository')
     },
     saveBooks() {
       const data = JSON.stringify(this.books)

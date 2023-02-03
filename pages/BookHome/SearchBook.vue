@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>book/search</p>
     <v-row align="center">
       <v-col cols="12" sm="6" md="3">
         <v-text-field
