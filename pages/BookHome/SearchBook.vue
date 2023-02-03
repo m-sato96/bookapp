@@ -1,8 +1,7 @@
 <template>
   <div>
-    <p>book/search</p>
     <v-row align="center">
-      <v-col cols="12" sm="6" md="3">
+      <v-col cols="12" sm="6">
         <v-text-field
           v-model="keyword"
           hide-details="false"
@@ -41,7 +40,7 @@
           max-width="400"
         >
           <v-img height="200" :src="book.image" contain class="book_img">
-            <template v-slot:placeholder>
+            <template #placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
                   indeterminate
@@ -57,8 +56,15 @@
             </div>
           </v-card-text>
           <v-card-actions class="plus_btn">
-            <v-btn class="mx-2" fab dark small color="teal">
-              <v-icon dark> mdi-plus </v-icon>
+            <v-btn
+              class="mx-2"
+              fab
+              dark
+              small
+              color="amber"
+              @click="addBook(book)"
+            >
+              <v-icon dark> mdi-bookmark </v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -115,6 +121,9 @@ export default {
           }
         })
       }
+    },
+    addBook(book) {
+      this.$emit('add-book', book)
     },
   },
 }

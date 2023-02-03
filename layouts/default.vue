@@ -2,7 +2,7 @@
   <v-app>
     <HeaderComponent />
     <v-main>
-      <v-container>
+      <v-container class="py-10">
         <Nuxt />
       </v-container>
     </v-main>

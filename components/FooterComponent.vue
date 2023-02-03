@@ -1,6 +1,6 @@
 <template>
-  <v-footer :absolute="!fixed" app>
-    <span>&copy; {{ new Date().getFullYear() }}</span>
+  <v-footer :absolute="!fixed" app color="teal" dark>
+    <span>&copy; {{ new Date().getFullYear() }} sato</span>
   </v-footer>
 </template>
 
