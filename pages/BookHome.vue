@@ -1,6 +1,10 @@
 <template>
   <div>
-    <NuxtChild :books="books" @add-book="addBook" />
+    <NuxtChild
+      :books="books"
+      @add-book="addBook"
+      @update-book-info="updateBookInfo"
+    />
   </div>
 </template>
 
@@ -32,6 +36,19 @@ export default {
       })
       this.saveBooks()
       this.goToEditPage(this.books.slice(-1)[0].id)
+    },
+    updateBookInfo(e) {
+      const updateData = {
+        id: e.id,
+        image: this.books[e.id - 1].image,
+        title: this.books[e.id - 1].title,
+        description: this.books[e.id - 1].description,
+        readData: e.readData,
+        memo: e.memo,
+      }
+      this.books.splice(e.id - 1, 1, updateData)
+      this.saveBooks()
+      this.$router.push('/BookHome')
     },
     saveBooks() {
       const data = JSON.stringify(this.books)

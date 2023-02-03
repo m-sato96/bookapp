@@ -41,7 +41,7 @@
           max-width="400"
         >
           <v-img height="200" :src="book.image" contain class="book_img">
-            <template v-slot:placeholder>
+            <template #placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
                   indeterminate
