@@ -2,6 +2,7 @@
   <div>
     <NuxtChild
       :books="books"
+      :current-book="currentBook"
       @detail-book="detailBook"
       @update-book-info="updateBookInfo"
       @books-delete="booksDelete"
@@ -14,6 +15,7 @@ export default {
   data() {
     return {
       books: [],
+      currentBook: {},
     }
   },
   created() {
@@ -27,8 +29,7 @@ export default {
   },
   methods: {
     detailBook(e) {
-      const data = JSON.stringify(e)
-      localStorage.setItem('SelectedBooks', data)
+      this.currentBook = e
       this.$router.push(`/BookHome/edit/${e.id}`)
     },
     updateBookInfo(e) {

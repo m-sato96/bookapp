@@ -93,9 +93,7 @@ export default {
       this.$emit('books-delete')
     },
     detailBook(book) {
-      const data = JSON.stringify(book)
-      localStorage.setItem('SelectedBooks', data)
-      this.$router.push(`/BookHome/edit/${book.id}`)
+      this.$emit('detail-book', book)
     },
   },
 }

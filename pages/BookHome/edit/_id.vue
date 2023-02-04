@@ -29,7 +29,7 @@
       >
         <template #activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
+            v-model="book.readDate"
             color="teal"
             label="読んだ日"
             prepend-icon="mdi-calendar"
@@ -39,7 +39,7 @@
           ></v-text-field>
         </template>
         <v-date-picker
-          v-model="date"
+          v-model="book.readDate"
           color="teal"
           locale="jp-ja"
           :day-format="(date) => new Date(date).getDate()"
@@ -64,30 +64,33 @@
 
 <script>
 export default {
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      vm.book = JSON.parse(localStorage.getItem('SelectedBooks'))
-      if (vm.book.readDate) {
-        vm.date = vm.book.readDate
-      } else {
-        vm.date = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .substr(0, 10)
-      }
-    })
+  props: {
+    currentBook: {
+      type: Object,
+      default: () => {},
+    },
+    books: {
+      type: Array,
+      default: () => {},
+    },
   },
   data() {
     return {
-      book: {},
-      date: '',
       menu: false,
     }
+  },
+  computed: {
+    book() {
+      const isSavedBook = this.books.find((book) => {
+        return book.id === this.currentBook.id
+      })
+      return isSavedBook || this.currentBook
+    },
   },
   methods: {
     updateBookInfo() {
       this.$emit('update-book-info', {
         ...this.book,
-        readDate: this.date,
         memo: this.book.memo,
       })
     },
