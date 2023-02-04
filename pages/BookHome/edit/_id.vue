@@ -29,7 +29,7 @@
       >
         <template #activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
+            v-model="book.readDate"
             color="teal"
             label="読んだ日"
             prepend-icon="mdi-calendar"
@@ -39,7 +39,7 @@
           ></v-text-field>
         </template>
         <v-date-picker
-          v-model="date"
+          v-model="book.readDate"
           color="teal"
           locale="jp-ja"
           :day-format="(date) => new Date(date).getDate()"
@@ -55,7 +55,13 @@
       color="teal"
     ></v-textarea>
     <div class="text-center">
-      <v-btn x-large color="teal" dark @click="updateBookInfo">
+      <v-btn
+        x-large
+        color="amber"
+        dark
+        class="font-weight-bold"
+        @click="updateBookInfo"
+      >
         保存する
       </v-btn>
     </div>
@@ -64,19 +70,11 @@
 
 <script>
 export default {
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      vm.book = vm.books[vm.$route.params.id - 1]
-      if (vm.book.readDate) {
-        vm.date = vm.book.readDate
-      } else {
-        vm.date = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .substr(0, 10)
-      }
-    })
-  },
   props: {
+    currentBook: {
+      type: Object,
+      default: () => {},
+    },
     books: {
       type: Array,
       default: () => {},
@@ -84,16 +82,21 @@ export default {
   },
   data() {
     return {
-      book: {},
-      date: '',
       menu: false,
     }
+  },
+  computed: {
+    book() {
+      const isSavedBook = this.books.find((book) => {
+        return book.id === this.currentBook.id
+      })
+      return isSavedBook || this.currentBook
+    },
   },
   methods: {
     updateBookInfo() {
       this.$emit('update-book-info', {
-        id: this.$route.params.id,
-        readDate: this.date,
+        ...this.book,
         memo: this.book.memo,
       })
     },
