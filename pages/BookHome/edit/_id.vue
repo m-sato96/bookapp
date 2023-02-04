@@ -55,7 +55,13 @@
       color="teal"
     ></v-textarea>
     <div class="text-center">
-      <v-btn x-large color="teal" dark @click="updateBookInfo">
+      <v-btn
+        x-large
+        color="amber"
+        dark
+        class="font-weight-bold"
+        @click="updateBookInfo"
+      >
         保存する
       </v-btn>
     </div>

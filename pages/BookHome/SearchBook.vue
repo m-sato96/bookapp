@@ -76,7 +76,7 @@
 <script>
 export default {
   async asyncData() {
-    const baseURL = `https://www.googleapis.com/books/v1/volumes?q="夏目漱石"&maxResults=10`
+    const baseURL = `https://www.googleapis.com/books/v1/volumes?q="Nuxt.js"&maxResults=10`
     const booksData = await fetch(baseURL).then((response) => response.json())
     const getData = booksData.items.map((book) => {
       return {
@@ -88,6 +88,7 @@ export default {
         description: book.volumeInfo.description
           ? book.volumeInfo.description
           : '',
+        deletionDialog: false,
       }
     })
     return { searchResults: getData }
@@ -118,6 +119,7 @@ export default {
             description: book.volumeInfo.description
               ? book.volumeInfo.description
               : '',
+            deletionDialog: false,
           }
         })
       }

@@ -19,7 +19,7 @@
       <v-list>
         <v-list-item @click.native="routerPush('SearchBook')">
           <v-list-item-action>
-            <v-icon light color="primary"> mdi-bookshelf </v-icon>
+            <v-icon light color="teal"> mdi-bookshelf </v-icon>
           </v-list-item-action>
           <v-list-item-title>書籍一覧</v-list-item-title>
         </v-list-item>

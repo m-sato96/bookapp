@@ -19,19 +19,59 @@
                 </v-row>
               </template>
             </v-img>
+            <p v-if="book.readDate" class="teal--text read_date">
+              読んだ日: {{ book.readDate }}
+            </p>
             <v-card-title>{{ book.title }}</v-card-title>
             <v-card-text>
               <div class="book_description mb-2">
                 {{ book.description }}
               </div>
-              <div>
+              <div v-if="book.memo">
                 <p class="mb-0 teal--text">メモ</p>
                 <p class="black--text mb-0">{{ book.memo }}</p>
               </div>
-              <p v-if="book.readDate" class="teal--text read_date">
-                読んだ日: {{ book.readDate }}
-              </p>
             </v-card-text>
+            <v-card-actions class="delete_btn">
+              <v-btn
+                class="mx-2"
+                fab
+                dark
+                small
+                color="red lighten-3"
+                @click.stop="book.deletionDialog = true"
+              >
+                <v-icon dark> mdi-trash-can-outline </v-icon>
+              </v-btn>
+            </v-card-actions>
+
+            <v-dialog
+              v-model="book.deletionDialog"
+              :retain-focus="false"
+              max-width="500"
+            >
+              <v-card>
+                <v-card-title> {{ book.title }}</v-card-title>
+                <v-card-text
+                  >この書籍を保存した書籍から削除しますか？
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="book.deletionDialog = false"
+                  >
+                    いいえ
+                  </v-btn>
+
+                  <v-btn color="green darken-1" text @click="bookDelete(book)">
+                    はい
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
             <v-card-actions class="plus_btn">
               <v-btn
@@ -39,7 +79,7 @@
                 fab
                 dark
                 small
-                color="teal"
+                color="amber"
                 @click="detailBook(book)"
               >
                 <v-icon dark> mdi-pencil </v-icon>
@@ -48,21 +88,29 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-btn color="red lighten-2 mt-16" dark @click.stop="dialog = true">
+      <v-btn
+        color="red lighten-3 mt-16"
+        dark
+        @click.stop="allDeletionDialog = true"
+      >
         保存した書籍の一括削除
       </v-btn>
 
-      <v-dialog v-model="dialog" max-width="290">
+      <v-dialog v-model="allDeletionDialog" max-width="500">
         <v-card>
-          <v-card-title> 保存済みの全ての書籍を削除しますか？ </v-card-title>
+          <v-card-title> 保存した書籍をすべて削除しますか？ </v-card-title>
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="green darken-1" text @click="dialog = false">
+            <v-btn
+              color="green darken-1"
+              text
+              @click="allDeletionDialog = false"
+            >
               いいえ
             </v-btn>
 
-            <v-btn color="green darken-1" text @click="booksDelete">
+            <v-btn color="green darken-1" text @click="allBooksDelete">
               はい
             </v-btn>
           </v-card-actions>
@@ -85,15 +133,19 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      allDeletionDialog: false,
     }
   },
   methods: {
-    booksDelete() {
-      this.$emit('books-delete')
+    allBooksDelete() {
+      this.$emit('all-books-delete')
     },
     detailBook(book) {
       this.$emit('detail-book', book)
+    },
+    bookDelete(book) {
+      book.deletionDialog = false
+      this.$emit('book-delete', book)
     },
   },
 }
@@ -117,9 +169,18 @@ export default {
   bottom: 8px;
   right: 0;
 }
-.read_date {
+.delete_btn {
   position: absolute;
   bottom: 8px;
-  left: 16px;
+  right: 70px;
+}
+.read_date {
+  position: absolute;
+  top: calc(200px - 28px);
+  left: 0px;
+  background: #009687a3;
+  color: #fff !important;
+  font-size: 13px;
+  padding: 4px 16px;
 }
 </style>

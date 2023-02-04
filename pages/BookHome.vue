@@ -5,7 +5,8 @@
       :current-book="currentBook"
       @detail-book="detailBook"
       @update-book-info="updateBookInfo"
-      @books-delete="booksDelete"
+      @all-books-delete="allBooksDelete"
+      @book-delete="bookDelete"
     />
   </div>
 </template>
@@ -46,10 +47,15 @@ export default {
       this.saveBooks()
       this.$router.push('/BookHome/BookDepository')
     },
-    booksDelete() {
+    allBooksDelete() {
       localStorage.setItem('books', '')
       localStorage.removeItem('books')
       this.books = []
+    },
+    bookDelete(e) {
+      const index = this.books.findIndex((book) => e.id === book.id)
+      this.books.splice(index, 1)
+      this.saveBooks()
     },
     saveBooks() {
       const data = JSON.stringify(this.books)
