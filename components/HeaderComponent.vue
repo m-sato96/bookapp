@@ -13,7 +13,7 @@
           <v-list-item-action>
             <v-icon light color="amber"> mdi-bookmark </v-icon>
           </v-list-item-action>
-          <v-list-item-title>保存した書籍一覧</v-list-item-title>
+          <v-list-item-title>保存した書籍</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-list>
