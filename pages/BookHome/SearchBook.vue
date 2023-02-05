@@ -15,7 +15,7 @@
           color="teal"
           class="white--text"
           :disabled="!keyword"
-          @click="search(keyword)"
+          @click="search(keyword, 0)"
         >
           検索
           <v-icon right dark> mdi-magnify </v-icon>
@@ -70,14 +70,23 @@
         </v-card>
       </v-col>
     </v-row>
+    <div class="text-center mt-10">
+      <v-pagination
+        v-model="page"
+        :length="pagination"
+        :total-visible="7"
+        @input="pager"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   async asyncData() {
-    const baseURL = `https://www.googleapis.com/books/v1/volumes?q="Nuxt.js"&maxResults=10`
+    const baseURL = `https://www.googleapis.com/books/v1/volumes?q="Nuxt.js"&maxResults=12&startIndex=0`
     const booksData = await fetch(baseURL).then((response) => response.json())
+    const totalItems = Math.floor(booksData.totalItems / 12)
     const getData = booksData.items.map((book) => {
       return {
         id: book.id,
@@ -91,7 +100,7 @@ export default {
         deletionDialog: false,
       }
     })
-    return { searchResults: getData }
+    return { searchResults: getData, pagination: totalItems }
   },
   data() {
     return {
@@ -99,13 +108,21 @@ export default {
       searchResults: [],
       isFound: true,
       loading: false,
+      page: 1,
+      pagination: '',
     }
   },
   methods: {
-    async search(keyword) {
+    async search(keyword, num) {
+      this.isFound = true
       this.searchResults = []
-      const baseURL = `https://www.googleapis.com/books/v1/volumes?q="${keyword}"&maxResults=10`
+      this.page = num + 1
+      const baseURL = `https://www.googleapis.com/books/v1/volumes?q=${keyword}&maxResults=12&startIndex=${num}`
       const booksData = await fetch(baseURL).then((response) => response.json())
+      this.pagination =
+        Math.floor(booksData.totalItems / 12) > 100
+          ? 100
+          : Math.floor(booksData.totalItems / 12)
       if (!booksData.items) {
         this.isFound = false
       } else {
@@ -126,6 +143,10 @@ export default {
     },
     detailBook(book) {
       this.$emit('detail-book', book)
+    },
+    pager(number) {
+      this.page = number
+      this.search(this.keyword || 'Nuxt', number - 1)
     },
   },
 }
